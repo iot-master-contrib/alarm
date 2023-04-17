@@ -1,0 +1,756 @@
+basePath: /app/history/api/
+definitions:
+  api.ParamSearch:
+    properties:
+      filter:
+        additionalProperties: true
+        type: object
+      keyword:
+        additionalProperties:
+          type: string
+        type: object
+      limit:
+        type: integer
+      skip:
+        type: integer
+      sort:
+        additionalProperties:
+          type: integer
+        type: object
+    type: object
+  api.ReplyData-api_Result:
+    properties:
+      data:
+        $ref: '#/definitions/api.Result'
+      error:
+        type: string
+    type: object
+  api.ReplyData-int64:
+    properties:
+      data:
+        type: integer
+      error:
+        type: string
+    type: object
+  api.ReplyData-types_History:
+    properties:
+      data:
+        $ref: '#/definitions/types.History'
+      error:
+        type: string
+    type: object
+  api.ReplyData-types_Job:
+    properties:
+      data:
+        $ref: '#/definitions/types.Job'
+      error:
+        type: string
+    type: object
+  api.ReplyList-types_History:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.History'
+        type: array
+      error:
+        type: string
+      total:
+        type: integer
+    type: object
+  api.ReplyList-types_Job:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Job'
+        type: array
+      error:
+        type: string
+      total:
+        type: integer
+    type: object
+  api.Result:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      total:
+        type: number
+    type: object
+  types.Aggregator:
+    properties:
+      assign:
+        type: string
+      expression:
+        type: string
+      type:
+        description: inc avg count min max sum last first
+        type: string
+    type: object
+  types.History:
+    properties:
+      device_id:
+        type: string
+      id:
+        type: integer
+      point:
+        type: string
+      time:
+        type: string
+      value:
+        type: number
+    type: object
+  types.Job:
+    properties:
+      aggregators:
+        items:
+          $ref: '#/definitions/types.Aggregator'
+        type: array
+      created:
+        type: string
+      crontab:
+        type: string
+      desc:
+        type: string
+      disabled:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      product_id:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API文档
+  title: 历史数据接口文档
+  version: 1.0 版本
+paths:
+  /aggregate:
+    get:
+      description: 原始数据按时间统计
+      parameters:
+      - description: 设备区域
+        in: query
+        name: area
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      - description: 设备分组
+        in: query
+        name: group
+        type: string
+      - description: 数据点位
+        in: query
+        name: point
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 设备类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 原始数据按时间统计
+      tags:
+      - aggregate
+  /aggregate/area:
+    get:
+      description: 按区域统计
+      parameters:
+      - description: 数据点
+        in: query
+        name: point
+        required: true
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按区域统计
+      tags:
+      - aggregate
+  /aggregate/day:
+    get:
+      description: 按日统计
+      parameters:
+      - description: 设备区域
+        in: query
+        name: area
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      - description: 设备分组
+        in: query
+        name: group
+        type: string
+      - description: 数据点位
+        in: query
+        name: point
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 设备类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按日统计
+      tags:
+      - aggregate
+  /aggregate/group:
+    get:
+      description: 按分组统计
+      parameters:
+      - description: 数据点
+        in: query
+        name: point
+        required: true
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按分组统计
+      tags:
+      - aggregate
+  /aggregate/hour:
+    get:
+      description: 按小时统计
+      parameters:
+      - description: 设备区域
+        in: query
+        name: area
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      - description: 设备分组
+        in: query
+        name: group
+        type: string
+      - description: 数据点位
+        in: query
+        name: point
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 设备类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按小时统计
+      tags:
+      - aggregate
+  /aggregate/minute:
+    get:
+      description: 按分钟统计
+      parameters:
+      - description: 设备区域
+        in: query
+        name: area
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      - description: 设备分组
+        in: query
+        name: group
+        type: string
+      - description: 数据点位
+        in: query
+        name: point
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 设备类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按分钟统计
+      tags:
+      - aggregate
+  /aggregate/month:
+    get:
+      description: 按月统计
+      parameters:
+      - description: 设备区域
+        in: query
+        name: area
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      - description: 设备分组
+        in: query
+        name: group
+        type: string
+      - description: 数据点位
+        in: query
+        name: point
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 设备类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按月统计
+      tags:
+      - aggregate
+  /aggregate/type:
+    get:
+      description: 按类型统计
+      parameters:
+      - description: 数据点
+        in: query
+        name: point
+        required: true
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按类型统计
+      tags:
+      - aggregate
+  /aggregate/year:
+    get:
+      description: 按年统计
+      parameters:
+      - description: 设备区域
+        in: query
+        name: area
+        type: string
+      - description: 结束时间
+        in: query
+        name: end
+        type: string
+      - description: 设备分组
+        in: query
+        name: group
+        type: string
+      - description: 数据点位
+        in: query
+        name: point
+        type: string
+      - description: 起始时间
+        in: query
+        name: start
+        type: string
+      - description: 设备类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-api_Result'
+      summary: 按年统计
+      tags:
+      - aggregate
+  /history/{id}/delete:
+    get:
+      consumes:
+      - application/json
+      description: 删除历史
+      parameters:
+      - description: 历史ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_History'
+      summary: 删除历史
+      tags:
+      - alarm
+  /history/count:
+    post:
+      consumes:
+      - application/json
+      description: 查询历史
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 查询历史数量
+      tags:
+      - alarm
+  /history/list:
+    get:
+      consumes:
+      - application/json
+      description: 查询历史
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_History'
+      summary: 查询历史
+      tags:
+      - alarm
+  /history/search:
+    post:
+      consumes:
+      - application/json
+      description: 查询历史
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_History'
+      summary: 查询历史
+      tags:
+      - alarm
+  /job/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 获取计划任务
+      parameters:
+      - description: 计划任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Job'
+      summary: 获取计划任务
+      tags:
+      - job
+    post:
+      consumes:
+      - application/json
+      description: 修改计划任务
+      parameters:
+      - description: 计划任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 计划任务信息
+        in: body
+        name: job
+        required: true
+        schema:
+          $ref: '#/definitions/types.Job'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Job'
+      summary: 修改计划任务
+      tags:
+      - job
+  /job/{id}/delete:
+    get:
+      consumes:
+      - application/json
+      description: 删除计划任务
+      parameters:
+      - description: 计划任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Job'
+      summary: 删除计划任务
+      tags:
+      - job
+  /job/{id}/disable:
+    get:
+      consumes:
+      - application/json
+      description: 禁用计划任务
+      parameters:
+      - description: 计划任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Job'
+      summary: 禁用计划任务
+      tags:
+      - job
+  /job/{id}/enable:
+    get:
+      consumes:
+      - application/json
+      description: 启用计划任务
+      parameters:
+      - description: 计划任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Job'
+      summary: 启用计划任务
+      tags:
+      - job
+  /job/count:
+    post:
+      consumes:
+      - application/json
+      description: 查询计划任务数量
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 查询计划任务数量
+      tags:
+      - job
+  /job/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建计划任务
+      parameters:
+      - description: 计划任务信息
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/types.Job'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Job'
+      summary: 创建计划任务
+      tags:
+      - job
+  /job/export:
+    get:
+      consumes:
+      - application/json
+      description: 导出计划任务
+      produces:
+      - application/octet-stream
+      responses: {}
+      summary: 导出计划任务
+      tags:
+      - product
+  /job/import:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 导入计划任务
+      parameters:
+      - description: 压缩包
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 导入计划任务
+      tags:
+      - product
+  /job/list:
+    get:
+      consumes:
+      - application/json
+      description: 查询计划任务
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Job'
+      summary: 查询计划任务
+      tags:
+      - job
+  /job/search:
+    post:
+      consumes:
+      - application/json
+      description: 查询计划任务
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Job'
+      summary: 查询计划任务
+      tags:
+      - job
+swagger: "2.0"
