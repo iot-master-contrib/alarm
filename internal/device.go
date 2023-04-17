@@ -56,33 +56,55 @@ func (d *Device) Push(pid, id string, ctx map[string]interface{}) {
 	}
 }
 
-type Project struct {
+type Product struct {
 	//validators []Validator
 	validators []*types.Validator
 	devices    lib.Map[Device]
 }
 
-func (p *Project) Push(pid, id string, ctx map[string]interface{}) {
-	dev := p.devices.Load(pid)
+func (p *Product) Push(pid, id string, ctx map[string]interface{}) {
+	dev := p.devices.Load(id)
 	if dev == nil {
-		//TODO 加载设备
+		//加载设备
+		//dev.validators
+		for _, v := range p.validators {
+			vv := &Validator{
+				model:      v,
+				expression: nil,
+			}
+			eval, err := calc.New(v.Expression) //重复编译
+			if err != nil {
+				log.Error(err)
+				continue
+			}
+			vv.expression = eval
+		}
+		p.devices.Store(id, dev)
 	}
 	dev.Push(pid, id, ctx)
 }
 
-var projects lib.Map[Project]
+var products lib.Map[Product]
+
+func Push(pid, id string, ctx map[string]interface{}) {
+	p := products.Load(pid)
+	if p == nil {
+		//TODO 加载项目？？？？
+		return
+	}
+	p.Push(pid, id, ctx)
+}
 
 func LoadValidator(validator *types.Validator) error {
-	//log.Info("load validator", validator.Id, validator.Name)
-	v := &Validator{
-		model: validator,
+	p := products.Load(validator.ProductId)
+	if p == nil {
+		p = &Product{}
+		products.Store(validator.ProductId, p)
 	}
-	evaluable, err := calc.New(validator.Expression)
-	if err != nil {
-		return err
-	}
-	v.expression = evaluable
-	//projects.Store(validator.Id, v)
+
+	p.validators = append(p.validators, validator)
+	//TODO 统一编译表达式
+	//evaluable, err := calc.New(validator.Expression)
 
 	return nil
 }

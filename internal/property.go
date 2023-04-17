@@ -21,5 +21,6 @@ func SubscribeProperty(client mqtt.Client) {
 			return
 		}
 
+		Push(pid, id, properties)
 	})
 }
