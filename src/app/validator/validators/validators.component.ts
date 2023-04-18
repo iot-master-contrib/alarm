@@ -20,6 +20,7 @@
     uploading: Boolean = false;
     pageIndex = 1;
     query: any = {}
+    url='/app/alarm/api';
     href!: string;
     filterRead = [
       { text: 'true', value: 1 },
@@ -105,11 +106,20 @@
       this.href = `/app/alarm/api/validator/export`;
     }
     read(data: any) {
-      this.rs.get(`/app/alarm/api/validator/${data.id}/read`).subscribe(res => {
+      this.rs.get(`/validator/${data.id}/read`).subscribe(res => {
         data.read = true; 
       })
     }
-  
+    disable(mess: number, id: any) {
+      if (mess)
+        this.rs.get(`device/${id}/disable`).subscribe((res) => {
+          this.reload();
+        });
+      else
+        this.rs.get(`device/${id}/enable`).subscribe((res) => {
+          this.reload();
+        });
+    }
     getTableHeight() {
       return tableHeight(this);
     }
