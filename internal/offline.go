@@ -15,8 +15,8 @@ func SubscribeOffline() {
 
 	mqtt.Client.Subscribe("offline/+/+", 0, func(client paho.Client, message paho.Message) {
 		topics := strings.Split(message.Topic(), "/")
-		pid := topics[2]
-		id := topics[3]
+		pid := topics[1]
+		id := topics[2]
 
 		alarm := types.Alarm{
 			DeviceId: id, //TODO 配置化
