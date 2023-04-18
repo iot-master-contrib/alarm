@@ -1,8 +1,8 @@
 package api
 
 import (
+	"alarm/types"
 	"github.com/gin-gonic/gin"
-	"github.com/zgwit/iot-master/v3/model"
 	"github.com/zgwit/iot-master/v3/pkg/curd"
 	"github.com/zgwit/iot-master/v3/pkg/db"
 )
@@ -11,7 +11,7 @@ import (
 // @Schemes
 // @Description 查询报警
 // @Tags alarm
-// @Param search body curd.ParamSearch true "查询参数"
+// @Param search body ParamSearch true "查询参数"
 // @Accept json
 // @Produce json
 // @Success 200 {object} ReplyData[int64] 返回报警信息
@@ -25,7 +25,7 @@ func noopAlarmCount() {}
 // @Param search body ParamSearch true "查询参数"
 // @Accept json
 // @Produce json
-// @Success 200 {object} ReplyList[model.Alarm] 返回报警信息
+// @Success 200 {object} ReplyList[types.Alarm] 返回报警信息
 // @Router /alarm/search [post]
 func noopAlarmSearch() {}
 
@@ -36,7 +36,7 @@ func noopAlarmSearch() {}
 // @Param search query ParamList true "查询参数"
 // @Accept json
 // @Produce json
-// @Success 200 {object} ReplyList[model.Alarm] 返回报警信息
+// @Success 200 {object} ReplyList[types.Alarm] 返回报警信息
 // @Router /alarm/list [get]
 func noopAlarmList() {}
 
@@ -47,7 +47,7 @@ func noopAlarmList() {}
 // @Param id path int true "报警ID"
 // @Accept json
 // @Produce json
-// @Success 200 {object} ReplyData[model.Alarm] 返回报警信息
+// @Success 200 {object} ReplyData[types.Alarm] 返回报警信息
 // @Router /alarm/{id}/delete [get]
 func noopAlarmDelete() {}
 
@@ -58,12 +58,12 @@ func noopAlarmDelete() {}
 // @Param id path int true "报警ID"
 // @Accept json
 // @Produce json
-// @Success 200 {object} ReplyData[model.Alarm] 返回报警信息
+// @Success 200 {object} ReplyData[types.Alarm] 返回报警信息
 // @Router /alarm/{id}/read [get]
 func noopAlarmRead() {}
 
 func alarmRead(ctx *gin.Context) {
-	alarm := model.Alarm{
+	alarm := types.Alarm{
 		Read: true,
 	}
 	cnt, err := db.Engine.ID(ctx.GetInt64("id")).Cols("read").Update(alarm)
@@ -76,15 +76,15 @@ func alarmRead(ctx *gin.Context) {
 
 func alarmRouter(app *gin.RouterGroup) {
 
-	app.POST("/count", curd.ApiCount[model.Alarm]())
+	app.POST("/count", curd.ApiCount[types.Alarm]())
 
-	app.POST("/search", curd.ApiSearch[model.Alarm]())
+	app.POST("/search", curd.ApiSearch[types.Alarm]())
 
-	app.GET("/list", curd.ApiList[model.Alarm]())
+	app.GET("/list", curd.ApiList[types.Alarm]())
 
-	app.GET("/:id", curd.ParseParamId, curd.ApiGet[model.Alarm]())
+	app.GET("/:id", curd.ParseParamId, curd.ApiGet[types.Alarm]())
 
-	app.GET("/:id/delete", curd.ParseParamId, curd.ApiDelete[model.Alarm](nil, nil))
+	app.GET("/:id/delete", curd.ParseParamId, curd.ApiDelete[types.Alarm](nil, nil))
 
 	app.GET("/:id/read", curd.ParseParamId, alarmRead)
 }

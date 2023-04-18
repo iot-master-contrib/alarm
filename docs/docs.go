@@ -15,480 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/aggregate": {
-            "get": {
-                "description": "原始数据按时间统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "原始数据按时间统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "设备区域",
-                        "name": "area",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "数据点位",
-                        "name": "point",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备类型",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/area": {
-            "get": {
-                "description": "按区域统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按区域统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "数据点",
-                        "name": "point",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/day": {
-            "get": {
-                "description": "按日统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按日统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "设备区域",
-                        "name": "area",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "数据点位",
-                        "name": "point",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备类型",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/group": {
-            "get": {
-                "description": "按分组统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按分组统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "数据点",
-                        "name": "point",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/hour": {
-            "get": {
-                "description": "按小时统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按小时统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "设备区域",
-                        "name": "area",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "数据点位",
-                        "name": "point",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备类型",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/minute": {
-            "get": {
-                "description": "按分钟统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按分钟统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "设备区域",
-                        "name": "area",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "数据点位",
-                        "name": "point",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备类型",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/month": {
-            "get": {
-                "description": "按月统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按月统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "设备区域",
-                        "name": "area",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "数据点位",
-                        "name": "point",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备类型",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/type": {
-            "get": {
-                "description": "按类型统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按类型统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "数据点",
-                        "name": "point",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
-        "/aggregate/year": {
-            "get": {
-                "description": "按年统计",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aggregate"
-                ],
-                "summary": "按年统计",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "设备区域",
-                        "name": "area",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "结束时间",
-                        "name": "end",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "数据点位",
-                        "name": "point",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "起始时间",
-                        "name": "start",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "设备类型",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.ReplyData-api_Result"
-                        }
-                    }
-                }
-            }
-        },
         "/alarm/count": {
             "post": {
-                "description": "查询历史",
+                "description": "查询报警",
                 "consumes": [
                     "application/json"
                 ],
@@ -498,7 +27,7 @@ const docTemplate = `{
                 "tags": [
                     "alarm"
                 ],
-                "summary": "查询历史数量",
+                "summary": "查询报警",
                 "parameters": [
                     {
                         "description": "查询参数",
@@ -522,7 +51,7 @@ const docTemplate = `{
         },
         "/alarm/list": {
             "get": {
-                "description": "查询历史",
+                "description": "查询报警",
                 "consumes": [
                     "application/json"
                 ],
@@ -532,7 +61,7 @@ const docTemplate = `{
                 "tags": [
                     "alarm"
                 ],
-                "summary": "查询历史",
+                "summary": "查询报警",
                 "parameters": [
                     {
                         "type": "integer",
@@ -549,7 +78,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyList-types_History"
+                            "$ref": "#/definitions/api.ReplyList-types_Alarm"
                         }
                     }
                 }
@@ -557,7 +86,7 @@ const docTemplate = `{
         },
         "/alarm/search": {
             "post": {
-                "description": "查询历史",
+                "description": "查询报警",
                 "consumes": [
                     "application/json"
                 ],
@@ -567,7 +96,7 @@ const docTemplate = `{
                 "tags": [
                     "alarm"
                 ],
-                "summary": "查询历史",
+                "summary": "查询报警",
                 "parameters": [
                     {
                         "description": "查询参数",
@@ -583,7 +112,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyList-types_History"
+                            "$ref": "#/definitions/api.ReplyList-types_Alarm"
                         }
                     }
                 }
@@ -591,7 +120,7 @@ const docTemplate = `{
         },
         "/alarm/{id}/delete": {
             "get": {
-                "description": "删除历史",
+                "description": "删除报警",
                 "consumes": [
                     "application/json"
                 ],
@@ -601,11 +130,11 @@ const docTemplate = `{
                 "tags": [
                     "alarm"
                 ],
-                "summary": "删除历史",
+                "summary": "删除报警",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "历史ID",
+                        "description": "报警ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -615,15 +144,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_History"
+                            "$ref": "#/definitions/api.ReplyData-types_Alarm"
                         }
                     }
                 }
             }
         },
-        "/job/count": {
-            "post": {
-                "description": "查询计划任务数量",
+        "/alarm/{id}/read": {
+            "get": {
+                "description": "阅读报警",
                 "consumes": [
                     "application/json"
                 ],
@@ -631,9 +160,41 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "alarm"
                 ],
-                "summary": "查询计划任务数量",
+                "summary": "阅读报警",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "报警ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ReplyData-types_Alarm"
+                        }
+                    }
+                }
+            }
+        },
+        "/validator/count": {
+            "post": {
+                "description": "查询检查数量",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "validator"
+                ],
+                "summary": "查询检查数量",
                 "parameters": [
                     {
                         "description": "查询参数",
@@ -655,9 +216,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/job/create": {
+        "/validator/create": {
             "post": {
-                "description": "创建计划任务",
+                "description": "创建检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -665,17 +226,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "创建计划任务",
+                "summary": "创建检查",
                 "parameters": [
                     {
-                        "description": "计划任务信息",
+                        "description": "检查信息",
                         "name": "search",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/types.Job"
+                            "$ref": "#/definitions/types.Validator"
                         }
                     }
                 ],
@@ -683,15 +244,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_Job"
+                            "$ref": "#/definitions/api.ReplyData-types_Validator"
                         }
                     }
                 }
             }
         },
-        "/job/export": {
+        "/validator/export": {
             "get": {
-                "description": "导出计划任务",
+                "description": "导出检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -701,13 +262,13 @@ const docTemplate = `{
                 "tags": [
                     "product"
                 ],
-                "summary": "导出计划任务",
+                "summary": "导出检查",
                 "responses": {}
             }
         },
-        "/job/import": {
+        "/validator/import": {
             "post": {
-                "description": "导入计划任务",
+                "description": "导入检查",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -717,7 +278,7 @@ const docTemplate = `{
                 "tags": [
                     "product"
                 ],
-                "summary": "导入计划任务",
+                "summary": "导入检查",
                 "parameters": [
                     {
                         "type": "file",
@@ -737,9 +298,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/job/list": {
+        "/validator/list": {
             "get": {
-                "description": "查询计划任务",
+                "description": "查询检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -747,9 +308,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "查询计划任务",
+                "summary": "查询检查",
                 "parameters": [
                     {
                         "type": "integer",
@@ -766,15 +327,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyList-types_Job"
+                            "$ref": "#/definitions/api.ReplyList-types_Validator"
                         }
                     }
                 }
             }
         },
-        "/job/search": {
+        "/validator/search": {
             "post": {
-                "description": "查询计划任务",
+                "description": "查询检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -782,9 +343,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "查询计划任务",
+                "summary": "查询检查",
                 "parameters": [
                     {
                         "description": "查询参数",
@@ -800,15 +361,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyList-types_Job"
+                            "$ref": "#/definitions/api.ReplyList-types_Validator"
                         }
                     }
                 }
             }
         },
-        "/job/{id}": {
+        "/validator/{id}": {
             "get": {
-                "description": "获取计划任务",
+                "description": "获取检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -816,13 +377,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "获取计划任务",
+                "summary": "获取检查",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "计划任务ID",
+                        "description": "检查ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -832,13 +393,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_Job"
+                            "$ref": "#/definitions/api.ReplyData-types_Validator"
                         }
                     }
                 }
             },
             "post": {
-                "description": "修改计划任务",
+                "description": "修改检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -846,24 +407,24 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "修改计划任务",
+                "summary": "修改检查",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "计划任务ID",
+                        "description": "检查ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "计划任务信息",
-                        "name": "job",
+                        "description": "检查信息",
+                        "name": "validator",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/types.Job"
+                            "$ref": "#/definitions/types.Validator"
                         }
                     }
                 ],
@@ -871,15 +432,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_Job"
+                            "$ref": "#/definitions/api.ReplyData-types_Validator"
                         }
                     }
                 }
             }
         },
-        "/job/{id}/delete": {
+        "/validator/{id}/delete": {
             "get": {
-                "description": "删除计划任务",
+                "description": "删除检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -887,13 +448,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "删除计划任务",
+                "summary": "删除检查",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "计划任务ID",
+                        "description": "检查ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -903,15 +464,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_Job"
+                            "$ref": "#/definitions/api.ReplyData-types_Validator"
                         }
                     }
                 }
             }
         },
-        "/job/{id}/disable": {
+        "/validator/{id}/disable": {
             "get": {
-                "description": "禁用计划任务",
+                "description": "禁用检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -919,13 +480,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "禁用计划任务",
+                "summary": "禁用检查",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "计划任务ID",
+                        "description": "检查ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -935,15 +496,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_Job"
+                            "$ref": "#/definitions/api.ReplyData-types_Validator"
                         }
                     }
                 }
             }
         },
-        "/job/{id}/enable": {
+        "/validator/{id}/enable": {
             "get": {
-                "description": "启用计划任务",
+                "description": "启用检查",
                 "consumes": [
                     "application/json"
                 ],
@@ -951,13 +512,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "job"
+                    "validator"
                 ],
-                "summary": "启用计划任务",
+                "summary": "启用检查",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "计划任务ID",
+                        "description": "检查ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -967,7 +528,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ReplyData-types_Job"
+                            "$ref": "#/definitions/api.ReplyData-types_Validator"
                         }
                     }
                 }
@@ -1002,17 +563,6 @@ const docTemplate = `{
                 }
             }
         },
-        "api.ReplyData-api_Result": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/api.Result"
-                },
-                "error": {
-                    "type": "string"
-                }
-            }
-        },
         "api.ReplyData-int64": {
             "type": "object",
             "properties": {
@@ -1024,35 +574,35 @@ const docTemplate = `{
                 }
             }
         },
-        "api.ReplyData-types_History": {
+        "api.ReplyData-types_Alarm": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/types.History"
+                    "$ref": "#/definitions/types.Alarm"
                 },
                 "error": {
                     "type": "string"
                 }
             }
         },
-        "api.ReplyData-types_Job": {
+        "api.ReplyData-types_Validator": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/types.Job"
+                    "$ref": "#/definitions/types.Validator"
                 },
                 "error": {
                     "type": "string"
                 }
             }
         },
-        "api.ReplyList-types_History": {
+        "api.ReplyList-types_Alarm": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/types.History"
+                        "$ref": "#/definitions/types.Alarm"
                     }
                 },
                 "error": {
@@ -1063,13 +613,13 @@ const docTemplate = `{
                 }
             }
         },
-        "api.ReplyList-types_Job": {
+        "api.ReplyList-types_Validator": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/types.Job"
+                        "$ref": "#/definitions/types.Validator"
                     }
                 },
                 "error": {
@@ -1080,83 +630,75 @@ const docTemplate = `{
                 }
             }
         },
-        "api.Result": {
+        "types.Alarm": {
             "type": "object",
             "properties": {
-                "id": {
+                "created": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
-                },
-                "total": {
-                    "type": "number"
-                }
-            }
-        },
-        "types.Aggregator": {
-            "type": "object",
-            "properties": {
-                "assign": {
-                    "type": "string"
-                },
-                "expression": {
-                    "type": "string"
-                },
-                "type": {
-                    "description": "inc avg count min max sum last first",
-                    "type": "string"
-                }
-            }
-        },
-        "types.History": {
-            "type": "object",
-            "properties": {
                 "device_id": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "point": {
+                "level": {
+                    "type": "integer"
+                },
+                "message": {
                     "type": "string"
                 },
-                "time": {
+                "read": {
+                    "type": "boolean"
+                },
+                "title": {
                     "type": "string"
                 },
-                "value": {
-                    "type": "number"
+                "type": {
+                    "type": "string"
                 }
             }
         },
-        "types.Job": {
+        "types.Validator": {
             "type": "object",
             "properties": {
-                "aggregators": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/types.Aggregator"
-                    }
+                "again": {
+                    "description": "再次提醒间隔s",
+                    "type": "integer"
                 },
                 "created": {
                     "type": "string"
                 },
-                "crontab": {
-                    "type": "string"
-                },
-                "desc": {
-                    "type": "string"
+                "delay": {
+                    "description": "延迟时间s",
+                    "type": "integer"
                 },
                 "disabled": {
                     "type": "boolean"
                 },
+                "expression": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
+                "level": {
+                    "type": "integer"
                 },
                 "product_id": {
+                    "type": "string"
+                },
+                "template": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "total": {
+                    "description": "总提醒次数",
+                    "type": "integer"
+                },
+                "type": {
                     "type": "string"
                 }
             }
