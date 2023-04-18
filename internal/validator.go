@@ -11,11 +11,15 @@ import (
 	"github.com/zgwit/iot-master/v3/pkg/lib"
 	"github.com/zgwit/iot-master/v3/pkg/log"
 	"github.com/zgwit/iot-master/v3/pkg/mqtt"
+	"time"
 )
 
 type Validator struct {
 	model      *types.Validator
 	expression gval.Evaluable
+	//again      bool
+	start int64 //开始时间s
+	total uint  //报警次数
 }
 
 type Device struct {
@@ -27,31 +31,65 @@ func (d *Device) Push(pid, id string, ctx map[string]interface{}) {
 	for k, v := range ctx {
 		d.values[k] = v
 	}
+	now := time.Now().Unix()
+
 	for _, v := range d.validators {
-		res, err := v.expression.EvalBool(context.Background(), d.values)
+		ret, err := v.expression.EvalBool(context.Background(), d.values)
 		if err != nil {
 			log.Error(err)
 			continue
 		}
-		if !res {
-			alarm := types.Alarm{
-				DeviceId: id,
-				Type:     v.model.Type,
-				Title:    v.model.Title,
-				Level:    v.model.Level,
-				//Message:  v.model.Message, //TODO 模板格式化
-			}
-			_, err = db.Engine.Insert(&alarm)
-			if err != nil {
-				log.Error(err)
+
+		if ret {
+			//约束OK，检查下一个
+			v.total = 0
+			v.start = 0
+			continue
+		}
+
+		//now := time.Now().Unix()
+		if v.start == 0 {
+			v.start = now
+		}
+
+		cs := v.model
+
+		//延迟报警
+		if cs.Delay > 0 {
+			if now < v.start+int64(cs.Delay) {
 				continue
 			}
-			topic := fmt.Sprintf("alarm/%s/%s", pid, id)
-			payload, _ := json.Marshal(&alarm)
-			err = mqtt.Publish(topic, payload, false, 0)
-			if err != nil {
-				log.Error(err)
+		}
+
+		//重复报警
+		if cs.Again > 0 && v.total < cs.Total {
+			if now < v.start+int64(cs.Again) {
+				continue
 			}
+
+			//重置开始时间
+			v.start = now // + int64(cs.Delay)
+			v.total++
+		}
+
+		alarm := types.Alarm{
+			DeviceId: id,
+			Type:     v.model.Type,
+			Title:    v.model.Title,
+			Level:    v.model.Level,
+			//Message:  v.model.Message, //TODO 模板格式化
+		}
+		_, err = db.Engine.Insert(&alarm)
+		if err != nil {
+			log.Error(err)
+			//continue
+		}
+
+		topic := fmt.Sprintf("alarm/%s/%s", pid, id)
+		payload, _ := json.Marshal(&alarm)
+		err = mqtt.Publish(topic, payload, false, 0)
+		if err != nil {
+			log.Error(err)
 		}
 	}
 }
