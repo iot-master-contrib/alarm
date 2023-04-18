@@ -78,6 +78,7 @@ func main() {
 	}
 
 	internal.SubscribeProperty(mqtt.Client)
+	internal.SubscribeOffline()
 
 	//加载验证器
 	err = internal.LoadValidators()

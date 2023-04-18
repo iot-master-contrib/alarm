@@ -6,6 +6,6 @@ func RegisterRoutes(app *gin.RouterGroup) {
 
 	alarmRouter(app.Group("/alarm"))
 
-	inspectorRouter(app.Group("/inspector"))
+	validatorRouter(app.Group("/validator"))
 
 }
