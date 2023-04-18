@@ -1,136 +1,152 @@
- 
-  import { Component } from '@angular/core';
-  import { Router } from "@angular/router";
-  import { RequestService } from "../../request.service";
-  import { NzMessageService } from "ng-zorro-antd/message";
-  import { NzTableQueryParams } from "ng-zorro-antd/table";
-  import { NzModalService } from "ng-zorro-antd/modal"; 
-  import { tableHeight, onAllChecked, onItemChecked, batchdel, refreshCheckedStatus } from "../../public";
-  @Component({
+import {Component} from '@angular/core';
+import {Router} from "@angular/router";
+import {RequestService} from "../../request.service";
+import {NzMessageService} from "ng-zorro-antd/message";
+import {NzTableQueryParams} from "ng-zorro-antd/table";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {ParseTableQuery} from "../../base/table";
+import {tableHeight, onAllChecked, onItemChecked, batchdel, refreshCheckedStatus} from "../../base/public";
+
+@Component({
     selector: 'app-validators',
     templateUrl: './validators.component.html',
     styleUrls: ['./validators.component.scss']
-  })
-  export class ValidatorsComponent {
-   text!:string
-    loading = false
+})
+export class ValidatorsComponent {
+
+
+    loading = true
     datum: any[] = []
     total = 1;
     pageSize = 20;
     uploading: Boolean = false;
     pageIndex = 1;
     query: any = {}
-    url='/app/alarm/api/';
+    url = '/app/alarm/api/';
     href!: string;
-    filterRead = [
-      { text: 'true', value: 1 },
-      { text: 'false', value: 0 }
-    ]
     filterLevel = [
-      { text: '1', value: 1 },
-      { text: '2', value: 2 },
-      { text: '3', value: 3 },
+        {text: '1', value: 1},
+        {text: '2', value: 2},
+        {text: '3', value: 3},
     ]
     checked = false;
     indeterminate = false;
     setOfCheckedId = new Set<number>();
     delResData: any = [];
+
     constructor(private router: Router,
-      private rs: RequestService,
-      private modal: NzModalService,
-      private msg: NzMessageService
+                private rs: RequestService,
+                private modal: NzModalService,
+                private msg: NzMessageService
     ) {
-      //this.load();
+        //this.load();
     }
-    onSearch(){}
+
     reload() {
-      this.datum = [];
-      this.load()
+        this.datum = [];
+        this.load()
     }
-  
+
     load() {
-      this.loading = true
-      this.rs.post(this.url+ "validator/search", this.query).subscribe(res => {
-        const { data, total } = res;
-        this.datum = data || [];
-        this.total = total || 0;
-        this.setOfCheckedId.clear();
-        refreshCheckedStatus(this);
-      }).add(() => {
-        this.loading = false;
-      })
+        this.loading = true
+        this.rs.post(this.url + "validator/search", this.query).subscribe(res => {
+            const {data, total} = res;
+            this.datum = data || [];
+            this.total = total || 0;
+            this.setOfCheckedId.clear();
+            refreshCheckedStatus(this);
+        }).add(() => {
+            this.loading = false;
+        })
     }
-   
+
+
+    handleNew() {
+        const path = `/validator/create`;
+        this.router.navigateByUrl(path);
+    }
+
     delete(id: number, size?: number) {
-      this.rs.get(this.url+ `validator/${id}/delete`).subscribe(res => {
-        if (!size ) {
-          this.msg.success("删除成功");
-          this.datum = this.datum.filter(d => d.id !== id);
-        } else if (size) {
-          this.delResData.push(res);
-          if (size === this.delResData.length) {
-            this.msg.success("删除成功");
-            this.load();
-          }
-        }
-      })
+        this.rs.get(this.url + `validator/${id}/delete`).subscribe(res => {
+            if (!size) {
+                this.msg.success("删除成功");
+                this.datum = this.datum.filter(d => d.id !== id);
+            } else if (size) {
+                this.delResData.push(res);
+                if (size === this.delResData.length) {
+                    this.msg.success("删除成功");
+                    this.load();
+                }
+            }
+        })
     }
-  
+
     onQuery($event: NzTableQueryParams) {
-      // ParseTableQuery($event, this.query)
-      // this.load();
+        ParseTableQuery($event, this.query)
+        this.load();
     }
+
     pageIndexChange(pageIndex: number) {
-      console.log("pageIndex:", pageIndex)
+        console.log("pageIndex:", pageIndex)
     }
+
     pageSizeChange(pageSize: number) {
-      this.query.limit = pageSize;
-      this.load();
+        this.query.limit = pageSize;
+        this.load();
     }
-  
+
     search($event: string) {
-      this.query.keyword = {
-        title: $event,
-        Message: $event,
-      };
-      this.query.skip = 0;
-      this.load();
+        this.query.keyword = {
+            title: $event,
+            Message: $event,
+        };
+        this.query.skip = 0;
+        this.load();
     }
+
     handleImport(e: any) {
-      const file: File = e.target.files[0];
-      const formData = new FormData();
-      formData.append('file', file)
-       this.rs.post(this.url+`validator/import`,formData).subscribe((res)=>{console.log(res )})
+        const file: File = e.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file)
+        this.rs.post(this.url + `validator/import`, formData).subscribe((res) => {
+            console.log(res)
+        })
     }
-    handleExport(){ 
-      this.href = this.url+`validator/export`;
+
+    handleExport() {
+        this.href = this.url + `validator/export`;
     }
+
     read(data: any) {
-      this.rs.get(this.url+`validator/${data.id}/read`).subscribe(res => {
-        data.read = true; 
-      })
+        this.rs.get(this.url + `validator/${data.id}/read`).subscribe(res => {
+            data.read = true;
+        })
     }
+
     disable(mess: number, id: any) {
-      if (mess)
-        this.rs.get(this.url+`validator/${id}/disable`).subscribe((res) => {
-          this.reload();
-        });
-      else
-        this.rs.get(this.url+`validator/${id}/enable`).subscribe((res) => {
-          this.reload();
-        });
+        if (mess)
+            this.rs.get(this.url + `validator/${id}/disable`).subscribe((res) => {
+                this.reload();
+            });
+        else
+            this.rs.get(this.url + `validator/${id}/enable`).subscribe((res) => {
+                this.reload();
+            });
     }
+
     getTableHeight() {
-      return tableHeight(this);
+        return tableHeight(this);
     }
+
     handleBatchDel() {
-      batchdel(this);
+        batchdel(this);
     }
+
     handleAllChecked(id: any) {
-      onAllChecked(id, this);
+        onAllChecked(id, this);
     }
+
     handleItemChecked(id: number, checked: boolean) {
-      onItemChecked(id, checked, this);
+        onItemChecked(id, checked, this);
     }
-  }
-  
+}

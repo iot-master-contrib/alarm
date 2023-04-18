@@ -1,26 +1,25 @@
- 
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { RequestService } from "../../request.service";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { NzTableQueryParams } from "ng-zorro-antd/table";
-import { NzModalService } from "ng-zorro-antd/modal"; 
-import { tableHeight, onAllChecked, onItemChecked, batchdel, refreshCheckedStatus } from "../../public";
+import { NzModalService } from "ng-zorro-antd/modal";
+import { ParseTableQuery } from "../../base/table";
+import { tableHeight, onAllChecked, onItemChecked, batchdel, refreshCheckedStatus } from "../../base/public";
 @Component({
   selector: 'app-alarms',
   templateUrl: './alarms.component.html',
   styleUrls: ['./alarms.component.scss']
 })
 export class AlarmsComponent {
- text!:string
-  loading = false
+
+
+  loading = true
   datum: any[] = []
   total = 1;
   pageSize = 20;
-  uploading: Boolean = false;
   pageIndex = 1;
   query: any = {}
-  href!: string;
   filterRead = [
     { text: 'true', value: 1 },
     { text: 'false', value: 0 }
@@ -41,7 +40,7 @@ export class AlarmsComponent {
   ) {
     //this.load();
   }
-  onSearch(){}
+
   reload() {
     this.datum = [];
     this.load()
@@ -59,7 +58,7 @@ export class AlarmsComponent {
       this.loading = false;
     })
   }
- 
+
   delete(id: number, size?: number) {
     this.rs.get(`/app/alarm/api/alarm/${id}/delete`).subscribe(res => {
       if (!size ) {
@@ -76,8 +75,8 @@ export class AlarmsComponent {
   }
 
   onQuery($event: NzTableQueryParams) {
-    // ParseTableQuery($event, this.query)
-    // this.load();
+    ParseTableQuery($event, this.query)
+    this.load();
   }
   pageIndexChange(pageIndex: number) {
     console.log("pageIndex:", pageIndex)
@@ -95,19 +94,12 @@ export class AlarmsComponent {
     this.query.skip = 0;
     this.load();
   }
-  handleImport(e: any) {
-    const file: File = e.target.files[0];
-    const formData = new FormData();
-    formData.append('file', file)
-     this.rs.post(`/app/alarm/api/job/import`,formData).subscribe((res)=>{console.log(res )})
-  }
-  handleExport(){ 
-    this.href = `/app/alarm/api/job/export`;
-  }
+
+
   read(data: any) {
     this.rs.get(`/app/alarm/api/alarm/${data.id}/read`).subscribe(res => {
       data.read = true;
-      
+
     })
   }
 
