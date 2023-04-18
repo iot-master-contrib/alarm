@@ -116,7 +116,13 @@
                 <a (click)="delete(data.id)">
                     <i nz-icon nzType="delete"></i>
                 </a>
-                
+                <nz-divider nzType="vertical"></nz-divider>
+                <a *ngIf="!data.disabled" (click)="disable(1,data.id)">
+                    启用
+                   </a>
+                   <a   *ngIf="data.disabled" (click)="disable(0,data.id)">
+                     禁用
+                   </a>
             </td>
         </tr>
     </tbody>
