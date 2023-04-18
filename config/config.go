@@ -11,13 +11,12 @@ import (
 )
 
 type Configure struct {
-	Crontab  string                       `json:"crontab"`
-	Web      web.Options                  `json:"web"`
-	Database db.Options                   `json:"database"`
-	Mqtt     mqtt.Options                 `json:"mqtt"`
-	Log      log.Options                  `json:"log"`
-	Apps     []model.App                  `json:"apps"`
-	Store    map[string]map[string]string `json:"store"`
+	Crontab  string       `json:"crontab"`
+	Web      web.Options  `json:"web"`
+	Database db.Options   `json:"database"`
+	Mqtt     mqtt.Options `json:"mqtt"`
+	Log      log.Options  `json:"log"`
+	Apps     []model.App  `json:"apps"`
 }
 
 var Config = Configure{
@@ -29,23 +28,19 @@ var Config = Configure{
 	Apps: []model.App{
 		{
 			Id:      "alarm",
-			Name:    "历史保存",
-			Address: "http://localhost:40002",
+			Name:    "报警",
+			Address: "http://localhost:40007",
 			Entries: []model.AppEntry{
-				{Name: "历史查询", Path: ""},
+				{Name: "报警记录", Path: "alarm"},
+				{Name: "报警检查", Path: "validator"},
 				{Name: "配置", Path: "config"},
 			},
-		},
-	},
-	Store: map[string]map[string]string{
-		"wattmeter": {
-			"wpp": "increase",
 		},
 	},
 }
 
 func init() {
-	Config.Web.Addr = ":40002"
+	Config.Web.Addr = ":40007"
 	//Config.Database.URL = "root:root@tcp(git.zgwit.com:3306)/modbus?charset=utf8"
 	//TODO get imei sn
 }
