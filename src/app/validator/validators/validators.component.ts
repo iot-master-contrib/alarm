@@ -1,93 +1,104 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
-import {RequestService} from "../../request.service";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {NzModalService} from "ng-zorro-antd/modal";
-import {ParseTableQuery} from "../../base/table";
-import {tableHeight, onAllChecked, onItemChecked, batchdel, refreshCheckedStatus} from "../../base/public";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { RequestService } from '../../request.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ParseTableQuery } from '../../base/table';
+import {
+    tableHeight,
+    onAllChecked,
+    onItemChecked,
+    batchdel,
+    refreshCheckedStatus,
+} from '../../base/public';
 
 @Component({
     selector: 'app-validators',
     templateUrl: './validators.component.html',
-    styleUrls: ['./validators.component.scss']
+    styleUrls: ['./validators.component.scss'],
 })
 export class ValidatorsComponent {
-
-
-    loading = true
-    datum: any[] = []
+    loading = true;
+    datum: any[] = [];
     total = 1;
     pageSize = 20;
     uploading: Boolean = false;
     pageIndex = 1;
-    query: any = {}
+    query: any = {};
     url = '/app/alarm/api/';
     href!: string;
     filterLevel = [
-        {text: '1', value: 1},
-        {text: '2', value: 2},
-        {text: '3', value: 3},
-    ]
+        { text: '1', value: 1 },
+        { text: '2', value: 2 },
+        { text: '3', value: 3 },
+    ];
     checked = false;
     indeterminate = false;
     setOfCheckedId = new Set<number>();
     delResData: any = [];
 
-    constructor(private router: Router,
-                private rs: RequestService,
-                private modal: NzModalService,
-                private msg: NzMessageService
+    constructor(
+        private router: Router,
+        private rs: RequestService,
+        private modal: NzModalService,
+        private msg: NzMessageService
     ) {
         //this.load();
     }
 
     reload() {
         this.datum = [];
-        this.load()
+        this.load();
     }
 
     load() {
-        this.loading = true
-        this.rs.post(this.url + "validator/search", this.query).subscribe(res => {
-            const {data, total} = res;
-            this.datum = data || [];
-            this.total = total || 0;
-            this.setOfCheckedId.clear();
-            refreshCheckedStatus(this);
-        }).add(() => {
-            this.loading = false;
-        })
+        this.loading = true;
+        this.rs
+            .post(this.url + 'validator/search', this.query)
+            .subscribe((res) => {
+                const { data, total } = res;
+                this.datum = data || [];
+                this.total = total || 0;
+                this.setOfCheckedId.clear();
+                refreshCheckedStatus(this);
+            })
+            .add(() => {
+                this.loading = false;
+            });
     }
 
-
+    edit(id: any) {
+        const path = `/validator/edit/${id}`;
+        this.router.navigateByUrl(path);
+    }
     handleNew() {
         const path = `/validator/create`;
         this.router.navigateByUrl(path);
     }
 
     delete(id: number, size?: number) {
-        this.rs.get(this.url + `validator/${id}/delete`).subscribe(res => {
+        this.rs.get(this.url + `validator/${id}/delete`).subscribe((res) => {
             if (!size) {
-                this.msg.success("删除成功");
-                this.datum = this.datum.filter(d => d.id !== id);
+                this.msg.success('删除成功');
+                this.datum = this.datum.filter((d) => d.id !== id);
             } else if (size) {
                 this.delResData.push(res);
                 if (size === this.delResData.length) {
-                    this.msg.success("删除成功");
+                    this.msg.success('删除成功');
                     this.load();
                 }
             }
-        })
+        });
     }
 
     onQuery($event: NzTableQueryParams) {
-        ParseTableQuery($event, this.query)
+        ParseTableQuery($event, this.query);
         this.load();
     }
 
     pageIndexChange(pageIndex: number) {
-        console.log("pageIndex:", pageIndex)
+        console.log('pageIndex:', pageIndex);
     }
 
     pageSizeChange(pageSize: number) {
@@ -95,11 +106,12 @@ export class ValidatorsComponent {
         this.load();
     }
 
-    search($event: string) {
+    search($event: string) { console.log()
         this.query.keyword = {
             title: $event,
-            Message: $event,
+         //   Message: $event,
         };
+        console.log(this.query)
         this.query.skip = 0;
         this.load();
     }
@@ -107,10 +119,12 @@ export class ValidatorsComponent {
     handleImport(e: any) {
         const file: File = e.target.files[0];
         const formData = new FormData();
-        formData.append('file', file)
-        this.rs.post(this.url + `validator/import`, formData).subscribe((res) => {
-            console.log(res)
-        })
+        formData.append('file', file);
+        this.rs
+            .post(this.url + `validator/import`, formData)
+            .subscribe((res) => {
+                console.log(res);
+            });
     }
 
     handleExport() {
@@ -118,20 +132,22 @@ export class ValidatorsComponent {
     }
 
     read(data: any) {
-        this.rs.get(this.url + `validator/${data.id}/read`).subscribe(res => {
-            data.read = true;
-        })
+        
     }
 
     disable(mess: number, id: any) {
         if (mess)
-            this.rs.get(this.url + `validator/${id}/disable`).subscribe((res) => {
-                this.reload();
-            });
+            this.rs
+                .get(this.url + `validator/${id}/disable`)
+                .subscribe((res) => {
+                    this.reload();
+                });
         else
-            this.rs.get(this.url + `validator/${id}/enable`).subscribe((res) => {
-                this.reload();
-            });
+            this.rs
+                .get(this.url + `validator/${id}/enable`)
+                .subscribe((res) => {
+                    this.reload();
+                });
     }
 
     getTableHeight() {

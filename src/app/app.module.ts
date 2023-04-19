@@ -18,11 +18,17 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import {NzCardModule} from "ng-zorro-antd/card";
+import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ValidatorsComponent } from './validator/validators/validators.component';
 import { ValidatorEditComponent } from './validator/validator-edit/validator-edit.component';
 import {BaseModule} from "./base/base.module";
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 registerLocaleData(zh);
 
 @NgModule({
@@ -37,8 +43,14 @@ registerLocaleData(zh);
         NzMessageModule,
         NzButtonModule,
         NzTableModule,
+        ReactiveFormsModule,
+        NzFormModule ,
         NzModalModule,
+        NzTagModule,
+        NzCardModule,
+        NzInputNumberModule,
         NzIconModule,
+        NzSelectModule,
         NzSpaceModule,
         NzSpinModule,
         FormsModule,
