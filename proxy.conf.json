@@ -4,5 +4,10 @@
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
+    }  ,"/api": {
+      "target": "http://demo.iot-master.com:8888",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
     }
   }

@@ -13,8 +13,8 @@
   export class ValidatorEditComponent  implements OnInit {
     group!: FormGroup;
     id: any = 0
-    listOfOption:any[]=[{value:'aa',label:11},{value:'bb',label:12}]
-    productList:any[]=[{value:'cc',label:21},{value:'dd',label:22}]
+    listOfOption:any[]=[ ]
+    productList:any[]=[ ]
     url = '/app/alarm/api/';
     constructor(private fb: FormBuilder,
       private router: Router,
@@ -35,6 +35,20 @@
       }
   
       this.build()
+
+      this.rs
+      .post('api/product/search', {})
+      .subscribe((res) => { 
+        const data: any[] = [];
+
+        res.data.filter((item: { id: string; name: string }) =>
+          data.push({ label: item.id + ' / ' + item.name, value: item.id })
+        );
+        this.productList = data;
+      })
+      .add(() => {});
+
+      
     }
   
     build(obj?: any) {
