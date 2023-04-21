@@ -31,9 +31,9 @@ var Config = Configure{
 			Name:    "报警",
 			Address: "http://localhost:40007",
 			Entries: []model.AppEntry{
-				{Name: "报警记录", Path: "alarm"},
-				{Name: "报警检查", Path: "validator"},
-				{Name: "配置", Path: "config"},
+				{Name: "报警记录", Path: "app/alarm/alarm"},
+				{Name: "报警检查", Path: "app/alarm/validator"},
+				{Name: "配置", Path: "app/alarm/config"},
 			},
 		},
 	},
