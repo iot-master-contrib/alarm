@@ -7,6 +7,8 @@ import (
 	"alarm/internal"
 	"alarm/types"
 	"embed"
+	"encoding/json"
+	"github.com/zgwit/iot-master/v3/model"
 	"github.com/zgwit/iot-master/v3/pkg/banner"
 	"github.com/zgwit/iot-master/v3/pkg/build"
 	"github.com/zgwit/iot-master/v3/pkg/db"
@@ -59,8 +61,20 @@ func main() {
 
 	//注册应用
 	//for _, v := range config.Config.Apps {
-	//	payload, _ := json.Marshal(v)
-	//	_ = mqtt.Publish("master/register", payload, false, 0)
+	payload, _ := json.Marshal(model.App{
+		Id:   "alarm",
+		Name: "报警管理",
+		Entries: []model.AppEntry{{
+			Path: "app/alarm/alarm",
+			Name: "报警日志",
+		}, {
+			Path: "app/alarm/validator",
+			Name: "报警检查",
+		}},
+		Type:    "tcp",
+		Address: "http://localhost" + web.GetOptions().Addr,
+	})
+	_ = mqtt.Publish("master/register", payload, false, 0)
 	//}
 
 	internal.SubscribeProperty(mqtt.Client)
