@@ -84,7 +84,7 @@ func alarmRouter(app *gin.RouterGroup) {
 
 	app.GET("/:id", curd.ParseParamId, curd.ApiGet[types.Alarm]())
 
-	app.GET("/:id/delete", curd.ParseParamId, curd.ApiDelete[types.Alarm](nil, nil))
+	app.GET("/:id/delete", curd.ParseParamId, curd.ApiDelete[types.Alarm]())
 
 	app.GET("/:id/read", curd.ParseParamId, alarmRead)
 }

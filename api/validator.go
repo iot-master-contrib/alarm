@@ -131,15 +131,15 @@ func validatorRouter(app *gin.RouterGroup) {
 	app.POST("/count", curd.ApiCount[types.Validator]())
 	app.POST("/search", curd.ApiSearch[types.Validator]())
 	app.GET("/list", curd.ApiList[types.Validator]())
-	app.POST("/create", curd.ApiCreate[types.Validator](curd.GenerateRandomId[types.Validator](8), nil))
+	app.POST("/create", curd.ApiCreateHook[types.Validator](curd.GenerateRandomId[types.Validator](8), nil))
 	app.GET("/:id", curd.ParseParamStringId, curd.ApiGet[types.Validator]())
-	app.POST("/:id", curd.ParseParamStringId, curd.ApiModify[types.Validator](nil, nil,
+	app.POST("/:id", curd.ParseParamStringId, curd.ApiUpdateHook[types.Validator](nil, nil,
 		"id", "product_id", "expression", "type", "title",
 		"template", "level", "delay", "again", "total", "disabled"))
-	app.GET("/:id/delete", curd.ParseParamStringId, curd.ApiDelete[types.Validator](nil, nil))
+	app.GET("/:id/delete", curd.ParseParamStringId, curd.ApiDeleteHook[types.Validator](nil, nil))
 	app.GET("/export", curd.ApiExport[types.Validator]("validator"))
 	app.POST("/import", curd.ApiImport[types.Validator]())
 
-	app.GET(":id/disable", curd.ParseParamStringId, curd.ApiDisable[types.Validator](true, nil, nil))
-	app.GET(":id/enable", curd.ParseParamStringId, curd.ApiDisable[types.Validator](false, nil, nil))
+	app.GET(":id/disable", curd.ParseParamStringId, curd.ApiDisableHook[types.Validator](true, nil, nil))
+	app.GET(":id/enable", curd.ParseParamStringId, curd.ApiDisableHook[types.Validator](false, nil, nil))
 }
