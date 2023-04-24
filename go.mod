@@ -6,10 +6,8 @@ require (
 	github.com/PaesslerAG/gval v1.2.2
 	github.com/eclipse/paho.mqtt.golang v1.4.2
 	github.com/gin-gonic/gin v1.9.0
-	github.com/robfig/cron/v3 v3.0.1
 	github.com/swaggo/swag v1.16.1
 	github.com/zgwit/iot-master/v3 v3.1.0
-	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (
@@ -60,7 +58,6 @@ require (
 	golang.org/x/tools v0.8.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
-	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	xorm.io/builder v0.3.12 // indirect
 	xorm.io/xorm v1.3.2 // indirect
