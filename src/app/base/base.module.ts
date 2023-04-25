@@ -18,6 +18,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { DatePipe } from "./date.pipe";
 import { CustomPaginationComponent } from './custom-pagination/custom-pagination.component';
+import { ExportComponent } from './export/export.component';
+import { ImportComponent } from './import/import.component';
 @NgModule({
   declarations: [
     DatePipe,
@@ -25,6 +27,8 @@ import { CustomPaginationComponent } from './custom-pagination/custom-pagination
     ToolbarComponent,
     SearchBoxComponent,
     CustomPaginationComponent,
+    ExportComponent,
+    ImportComponent,
   ],
   exports: [
     DatePipe,
@@ -32,6 +36,8 @@ import { CustomPaginationComponent } from './custom-pagination/custom-pagination
     ToolbarComponent,
     SearchBoxComponent,
     CustomPaginationComponent,
+    ExportComponent,
+    ImportComponent
   ],
   imports: [
     CommonModule,

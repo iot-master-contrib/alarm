@@ -19,7 +19,7 @@
 
         <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="expression"
-                >表示</nz-form-label
+                >表达式</nz-form-label
             >
             <nz-form-control [nzSm]="14" [nzXs]="24">
                 <input nz-input formControlName="expression" />
@@ -62,33 +62,25 @@
                 >类型</nz-form-label
             >
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="">
-                <nz-select formControlName="type" [nzOptions]="listOfOption">
-                </nz-select>
+                <input nz-input formControlName="type" />
             </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="total"
-                >总提醒次数</nz-form-label
-            >
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-input-number
-                    formControlName="total"
-                    [nzMin]="1"
-                    [nzStep]="1"
-                ></nz-input-number>
-            </nz-form-control>
-        </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="again"
                 >再次提醒间隔</nz-form-label
             >
             <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-input-number
+                <nz-input-number-group  nzAddOnAfter="秒">
+                    <nz-input-number
                     formControlName="again"
                     [nzMin]="1"
                     [nzStep]="1"
                 ></nz-input-number>
+                  </nz-input-number-group>
+
+
+
             </nz-form-control>
         </nz-form-item>
 
@@ -97,25 +89,55 @@
                 >延迟间隔</nz-form-label
             >
             <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-input-number
+
+                <nz-input-number-group  nzAddOnAfter="秒">
+                    <nz-input-number
                     formControlName="delay"
                     [nzMin]="1"
                     [nzStep]="1"
                 ></nz-input-number>
+                  </nz-input-number-group>
+
             </nz-form-control>
         </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="total"
+                >总提醒次数</nz-form-label
+            >
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+
+                <nz-input-number-group   nzAddOnAfter="次">
+                    <nz-input-number
+                    formControlName="total"
+                    [nzMin]="1"
+                    [nzStep]="1"
+                ></nz-input-number>
+                  </nz-input-number-group>
+
+            </nz-form-control>
+        </nz-form-item>
+
 
         <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="level"
                 >等级</nz-form-label
             >
             <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-input-number
+
+                <nz-input-number-group   nzAddOnAfter="级">
+                    <nz-input-number
                     formControlName="level"
                     [nzMin]="1"
                     [nzStep]="1"
                 ></nz-input-number>
+
+                  </nz-input-number-group>
+
+
             </nz-form-control>
         </nz-form-item>
     </form>
+
+
 </nz-card>

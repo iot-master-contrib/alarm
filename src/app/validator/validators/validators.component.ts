@@ -127,9 +127,7 @@ export class ValidatorsComponent {
             });
     }
 
-    handleExport() {
-        this.href = this.url + `validator/export`;
-    }
+     
 
     read(data: any) {
         
@@ -149,7 +147,10 @@ export class ValidatorsComponent {
                     this.reload();
                 });
     }
-
+    cancel() {
+        this.msg.info('取消操作');
+      }
+    
     getTableHeight() {
         return tableHeight(this);
     }
