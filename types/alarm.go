@@ -9,7 +9,7 @@ type Alarm struct {
 	Type     string     `json:"type"`
 	Title    string     `json:"title"`
 	Message  string     `json:"message,omitempty"`
-	Level    uint8      `json:"level"`
+	Level    uint       `json:"level"`
 	Read     bool       `json:"read,omitempty"`
 	Created  model.Time `json:"created,omitempty" xorm:"created"`
 }
