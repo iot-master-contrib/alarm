@@ -31,7 +31,7 @@
       [style]="{fontWeight: data.read ? '':'bold'}">
       <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="handleItemChecked(data.id, $event)"></td>
       <td>{{data.id}}</td>
-      <td>{{data.device_id}}</td>
+      <td>{{data.device || data.device_id}}</td>
       <td>{{data.level}}</td>
       <td>{{data.title}}</td>
       <td>{{data.message}}</td>
