@@ -99,19 +99,20 @@ export class ValidatorsComponent {
 
     pageIndexChange(pageIndex: number) {
         console.log('pageIndex:', pageIndex);
+        this.query.skip = pageIndex - 1;
     }
 
     pageSizeChange(pageSize: number) {
         this.query.limit = pageSize;
-        this.load();
     }
 
-    search($event: string) { console.log()
+    search($event: string) {
+        console.log()
         this.query.keyword = {
             title: $event,
-         //   Message: $event,
+            //   Message: $event,
         };
-        
+
         this.query.skip = 0;
         this.load();
     }
@@ -127,10 +128,10 @@ export class ValidatorsComponent {
             });
     }
 
-     
+
 
     read(data: any) {
-        
+
     }
 
     disable(mess: number, id: any) {
@@ -149,8 +150,8 @@ export class ValidatorsComponent {
     }
     cancel() {
         this.msg.info('取消操作');
-      }
-    
+    }
+
     getTableHeight() {
         return tableHeight(this);
     }
