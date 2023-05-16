@@ -73,6 +73,7 @@ func main() {
 		}},
 		Type:    "tcp",
 		Address: "http://localhost" + web.GetOptions().Addr,
+		Icon: "/app/alarm/assets/alarm.svg",
 	})
 	_ = mqtt.Publish("master/register", payload, false, 0)
 	//}
