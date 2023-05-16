@@ -9,7 +9,7 @@ type Validator struct {
 	Type       string     `json:"type"`
 	Title      string     `json:"title"`
 	Template   string     `json:"template"`
-	Level      uint8      `json:"level"`
+	Level      uint       `json:"level"`
 	Delay      uint       `json:"delay,omitempty"` //延迟时间s
 	Again      uint       `json:"again,omitempty"` //再次提醒间隔s
 	Total      uint       `json:"total,omitempty"` //总提醒次数
