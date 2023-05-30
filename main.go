@@ -62,25 +62,6 @@ func Startup(app *web.Engine) error {
 	}
 	//defer mqtt.Close()
 
-	//注册应用
-	//for _, v := range config.Config.Apps {
-	payload, _ := json.Marshal(model.App{
-		Id:   "alarm",
-		Name: "报警管理",
-		Entries: []model.AppEntry{{
-			Path: "app/alarm/alarm",
-			Name: "报警日志",
-		}, {
-			Path: "app/alarm/validator",
-			Name: "报警检查",
-		}},
-		Type:    "tcp",
-		Address: "http://localhost" + web.GetOptions().Addr,
-		Icon:    "/app/alarm/assets/alarm.svg",
-	})
-	_ = mqtt.Publish("master/register", payload, false, 0)
-	//}
-
 	internal.SubscribeProperty(mqtt.Client)
 	internal.SubscribeOffline()
 
@@ -97,6 +78,24 @@ func Startup(app *web.Engine) error {
 	web.RegisterSwaggerDocs(app.Group("/app/alarm"))
 
 	return nil
+}
+
+func Register() error {
+	payload, _ := json.Marshal(model.App{
+		Id:   "alarm",
+		Name: "报警管理",
+		Entries: []model.AppEntry{{
+			Path: "app/alarm/alarm",
+			Name: "报警日志",
+		}, {
+			Path: "app/alarm/validator",
+			Name: "报警检查",
+		}},
+		Type:    "tcp",
+		Address: "http://localhost" + web.GetOptions().Addr,
+		Icon:    "/app/alarm/assets/alarm.svg",
+	})
+	return mqtt.Publish("master/register", payload, false, 0)
 }
 
 func Static(fs *web.FileSystem) {

@@ -15,6 +15,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	err = alarm.Register()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	//注册静态页面
 	fs := app.FileSystem()
 	alarm.Static(fs)
