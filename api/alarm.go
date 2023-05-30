@@ -1,8 +1,8 @@
 package api
 
 import (
-	"alarm/types"
 	"github.com/gin-gonic/gin"
+	"github.com/iot-master-contrib/alarm/types"
 	"github.com/zgwit/iot-master/v3/pkg/curd"
 	"github.com/zgwit/iot-master/v3/pkg/db"
 )
@@ -79,7 +79,7 @@ func alarmRouter(app *gin.RouterGroup) {
 	app.POST("/count", curd.ApiCount[types.Alarm]())
 
 	app.POST("/search", curd.ApiSearchWith[types.Alarm](
-		"alarm", []curd.Join{{
+		"alarm", []*curd.Join{{
 			Table:        "device",
 			LocaleField:  "device_id",
 			ForeignField: "id",

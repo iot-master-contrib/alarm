@@ -1,10 +1,10 @@
 package internal
 
 import (
-	"alarm/types"
 	"encoding/json"
 	"fmt"
 	paho "github.com/eclipse/paho.mqtt.golang"
+	"github.com/iot-master-contrib/alarm/types"
 	"github.com/zgwit/iot-master/v3/pkg/db"
 	"github.com/zgwit/iot-master/v3/pkg/log"
 	"github.com/zgwit/iot-master/v3/pkg/mqtt"

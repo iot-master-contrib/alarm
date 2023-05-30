@@ -1,11 +1,11 @@
 package internal
 
 import (
-	"alarm/types"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/PaesslerAG/gval"
+	"github.com/iot-master-contrib/alarm/types"
 	"github.com/zgwit/iot-master/v3/pkg/calc"
 	"github.com/zgwit/iot-master/v3/pkg/db"
 	"github.com/zgwit/iot-master/v3/pkg/lib"

@@ -1,8 +1,8 @@
 package api
 
 import (
-	"alarm/types"
 	"github.com/gin-gonic/gin"
+	"github.com/iot-master-contrib/alarm/types"
 	"github.com/zgwit/iot-master/v3/pkg/curd"
 )
 
@@ -137,8 +137,8 @@ func validatorRouter(app *gin.RouterGroup) {
 		"id", "product_id", "expression", "type", "title",
 		"template", "level", "delay", "again", "total", "disabled"))
 	app.GET("/:id/delete", curd.ParseParamStringId, curd.ApiDeleteHook[types.Validator](nil, nil))
-	app.GET("/export", curd.ApiExport[types.Validator]("validator"))
-	app.POST("/import", curd.ApiImport[types.Validator]())
+	app.GET("/export", curd.ApiExport("validator", "验证器"))
+	app.POST("/import", curd.ApiImport("validator"))
 
 	app.GET(":id/disable", curd.ParseParamStringId, curd.ApiDisableHook[types.Validator](true, nil, nil))
 	app.GET(":id/enable", curd.ParseParamStringId, curd.ApiDisableHook[types.Validator](false, nil, nil))

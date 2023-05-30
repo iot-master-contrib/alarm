@@ -23,7 +23,7 @@ ldflags="-X '${pkg}.Version=$version' \
 export GOARCH=amd64
 
 export GOOS=windows
-go build -ldflags "$ldflags" -o alarm.exe main.go
+go build -ldflags "$ldflags" -o alarm.exe cmd/main.go
 
 export GOOS=linux
-go build -ldflags "$ldflags" -o alarm main.go
+go build -ldflags "$ldflags" -o alarm cmd/main.go

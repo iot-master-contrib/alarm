@@ -1,13 +1,13 @@
-package main
+package alarm
 
 import (
-	"alarm/api"
-	"alarm/config"
-	_ "alarm/docs"
-	"alarm/internal"
-	"alarm/types"
 	"embed"
 	"encoding/json"
+	"github.com/iot-master-contrib/alarm/api"
+	"github.com/iot-master-contrib/alarm/config"
+	_ "github.com/iot-master-contrib/alarm/docs"
+	"github.com/iot-master-contrib/alarm/internal"
+	"github.com/iot-master-contrib/alarm/types"
 	"github.com/zgwit/iot-master/v3/model"
 	"github.com/zgwit/iot-master/v3/pkg/banner"
 	"github.com/zgwit/iot-master/v3/pkg/build"
@@ -21,12 +21,7 @@ import (
 //go:embed all:app/alarm
 var wwwFiles embed.FS
 
-// @title 历史数据接口文档
-// @version 1.0 版本
-// @description API文档
-// @BasePath /app/alarm/api/
-// @query.collection.format multi
-func main() {
+func Startup(app *web.Engine) error {
 	banner.Print("iot-master-plugin:alarm")
 	build.Print()
 
@@ -34,30 +29,30 @@ func main() {
 
 	err := log.Open()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	//加载数据库
 	err = db.Open()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	defer db.Close()
+	//defer db.Close()
 
 	//同步表结构
 	err = db.Engine.Sync2(
 		new(types.Alarm), new(types.Validator),
 	)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	//MQTT总线
 	err = mqtt.Open()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	defer mqtt.Close()
+	//defer mqtt.Close()
 
 	//注册应用
 	//for _, v := range config.Config.Apps {
@@ -73,7 +68,7 @@ func main() {
 		}},
 		Type:    "tcp",
 		Address: "http://localhost" + web.GetOptions().Addr,
-		Icon: "/app/alarm/assets/alarm.svg",
+		Icon:    "/app/alarm/assets/alarm.svg",
 	})
 	_ = mqtt.Publish("master/register", payload, false, 0)
 	//}
@@ -84,10 +79,8 @@ func main() {
 	//加载验证器
 	err = internal.LoadValidators()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-
-	app := web.CreateEngine()
 
 	//注册前端接口
 	api.RegisterRoutes(app.Group("/app/alarm/api"))
@@ -98,6 +91,17 @@ func main() {
 	//前端静态文件
 	app.RegisterFS(http.FS(wwwFiles), "", "app/alarm/index.html")
 
-	//监听HTTP
-	app.Serve()
+	return nil
+}
+
+func Static(fs *web.FileSystem) {
+	//前端静态文件
+	fs.Put("/app/alarm", http.FS(wwwFiles), "", "index.html")
+}
+
+func Shutdown() error {
+
+	//只关闭Web就行了，其他通过defer关闭
+
+	return nil
 }
