@@ -21,6 +21,14 @@ import (
 //go:embed all:app/alarm
 var wwwFiles embed.FS
 
+// @title 历史数据接口文档
+// @version 1.0 版本
+// @description API文档
+// @BasePath /app/alarm/api/
+// @query.collection.format multi
+func main() {
+}
+
 func Startup(app *web.Engine) error {
 	banner.Print("iot-master-plugin:alarm")
 	build.Print()
@@ -87,9 +95,6 @@ func Startup(app *web.Engine) error {
 
 	//注册接口文档
 	web.RegisterSwaggerDocs(app.Group("/app/alarm"))
-
-	//前端静态文件
-	app.RegisterFS(http.FS(wwwFiles), "", "app/alarm/index.html")
 
 	return nil
 }

@@ -6,11 +6,6 @@ import (
 	"github.com/zgwit/iot-master/v3/pkg/web"
 )
 
-// @title 历史数据接口文档
-// @version 1.0 版本
-// @description API文档
-// @BasePath /app/alarm/api/
-// @query.collection.format multi
 func main() {
 	app := web.CreateEngine()
 
