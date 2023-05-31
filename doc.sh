@@ -1,1 +1,1 @@
-swag init --instanceName Alarm
+swag init --instanceName alarm

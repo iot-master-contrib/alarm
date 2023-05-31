@@ -3,7 +3,7 @@ package docs
 
 import "github.com/swaggo/swag"
 
-const docTemplate = `{
+const docTemplatealarm = `{
     "schemes": {{ marshal .Schemes }},
     "swagger": "2.0",
     "info": {
@@ -636,6 +636,9 @@ const docTemplate = `{
                 "created": {
                     "type": "string"
                 },
+                "device": {
+                    "type": "string"
+                },
                 "device_id": {
                     "type": "string"
                 },
@@ -706,18 +709,18 @@ const docTemplate = `{
     }
 }`
 
-// SwaggerInfo holds exported Swagger Info so clients can modify it
-var SwaggerInfo = &swag.Spec{
+// SwaggerInfoalarm holds exported Swagger Info so clients can modify it
+var SwaggerInfoalarm = &swag.Spec{
 	Version:          "1.0 版本",
 	Host:             "",
 	BasePath:         "/app/alarm/api/",
 	Schemes:          []string{},
 	Title:            "历史数据接口文档",
 	Description:      "API文档",
-	InfoInstanceName: "swagger",
-	SwaggerTemplate:  docTemplate,
+	InfoInstanceName: "alarm",
+	SwaggerTemplate:  docTemplatealarm,
 }
 
 func init() {
-	swag.Register(SwaggerInfo.InstanceName(), SwaggerInfo)
+	swag.Register(SwaggerInfoalarm.InstanceName(), SwaggerInfoalarm)
 }

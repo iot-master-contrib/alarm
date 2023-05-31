@@ -75,7 +75,7 @@ func Startup(app *web.Engine) error {
 	api.RegisterRoutes(app.Group("/app/alarm/api"))
 
 	//注册接口文档
-	web.RegisterSwaggerDocs(app.Group("/app/alarm"), "Alarm")
+	web.RegisterSwaggerDocs(app.Group("/app/alarm"), "alarm")
 
 	return nil
 }

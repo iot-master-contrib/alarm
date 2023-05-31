@@ -629,6 +629,9 @@
                 "created": {
                     "type": "string"
                 },
+                "device": {
+                    "type": "string"
+                },
                 "device_id": {
                     "type": "string"
                 },
