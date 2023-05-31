@@ -7,7 +7,7 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.4.2
 	github.com/gin-gonic/gin v1.9.0
 	github.com/swaggo/swag v1.16.1
-	github.com/zgwit/iot-master/v3 v3.2.0
+	github.com/zgwit/iot-master/v3 v3.2.2
 )
 
 require (
