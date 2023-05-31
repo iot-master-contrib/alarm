@@ -4,15 +4,11 @@ import (
 	"embed"
 	"encoding/json"
 	"github.com/iot-master-contrib/alarm/api"
-	"github.com/iot-master-contrib/alarm/config"
 	_ "github.com/iot-master-contrib/alarm/docs"
 	"github.com/iot-master-contrib/alarm/internal"
 	"github.com/iot-master-contrib/alarm/types"
 	"github.com/zgwit/iot-master/v3/model"
-	"github.com/zgwit/iot-master/v3/pkg/banner"
-	"github.com/zgwit/iot-master/v3/pkg/build"
 	"github.com/zgwit/iot-master/v3/pkg/db"
-	"github.com/zgwit/iot-master/v3/pkg/log"
 	"github.com/zgwit/iot-master/v3/pkg/mqtt"
 	"github.com/zgwit/iot-master/v3/pkg/web"
 	"net/http"
@@ -30,37 +26,14 @@ func main() {
 }
 
 func Startup(app *web.Engine) error {
-	banner.Print("iot-master-plugin:alarm")
-	build.Print()
-
-	config.Load()
-
-	err := log.Open()
-	if err != nil {
-		return err
-	}
-
-	//加载数据库
-	err = db.Open()
-	if err != nil {
-		return err
-	}
-	//defer db.Close()
 
 	//同步表结构
-	err = db.Engine.Sync2(
+	err := db.Engine.Sync2(
 		new(types.Alarm), new(types.Validator),
 	)
 	if err != nil {
 		return err
 	}
-
-	//MQTT总线
-	err = mqtt.Open()
-	if err != nil {
-		return err
-	}
-	//defer mqtt.Close()
 
 	internal.SubscribeProperty(mqtt.Client)
 	internal.SubscribeOffline()

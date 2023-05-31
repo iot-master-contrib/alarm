@@ -13,8 +13,6 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-/.idea
-/www
 
 
 # Compiled output
@@ -57,5 +55,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/*.yaml
+
 /alarm
+/*.yaml
+/*.db
