@@ -33,7 +33,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	app := web.CreateEngine()
 
 	//调用启动
